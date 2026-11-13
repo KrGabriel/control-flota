@@ -1,51 +1,24 @@
+import { Suspense } from "react";
 import {
   BellRing,
-  ListTree,
-  Users,
-  Mail,
   ArrowLeftRight,
   Settings,
 } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
 import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { AlertasConfig } from "@/components/configuracion/alertas-config";
+import { CategoriasView } from "@/components/categorias/categorias-view";
+import { TecnicosView } from "@/components/tecnicos/tecnicos-view";
 
 const SECTIONS = [
-  {
-    icon: BellRing,
-    title: "Alertas y anticipos",
-    description:
-      "Configuración de la anticipación para avisos (30, 15, 7, 0 días) y umbrales de kilometraje por categoría de vencimiento.",
-  },
-  {
-    icon: ListTree,
-    title: "Categorías de mantenimiento",
-    description:
-      "Administración de categorías: preventivo, correctivo, aceite y filtros, mecánica, eléctrica, neumáticos, frenos, batería y otros.",
-  },
-  {
-    icon: Users,
-    title: "Técnicos",
-    description:
-      "Registro de técnicos responsables de vehículos. No son usuarios de la aplicación.",
-  },
-  {
-    icon: Mail,
-    title: "Notificaciones por correo",
-    description:
-      "Envío opcional de alertas por email mediante Resend. Requiere configurar las credenciales en variables de entorno.",
-  },
   {
     icon: ArrowLeftRight,
     title: "Importación y exportación",
     description:
       "Importación de vehículos y registros desde CSV/Excel, y exportación de respaldos.",
+    etapa: "Etapa 8",
   },
 ];
 
@@ -57,24 +30,97 @@ export default function ConfiguracionPage() {
         description="Parámetros generales del sistema de gestión de flota."
       />
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {SECTIONS.map((section) => (
-          <Card key={section.title}>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <section.icon className="size-4 text-primary" />
-                {section.title}
-              </CardTitle>
-              <CardDescription>{section.description}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Badge variant="secondary" className="text-xs">
-                Se activa en próximas etapas
-              </Badge>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      <section className="space-y-3">
+        <div className="flex items-center gap-2">
+          <h2 className="text-sm font-semibold text-muted-foreground">
+            Alertas y anticipos
+          </h2>
+          <Badge variant="secondary" className="text-xs">
+            Activo
+          </Badge>
+        </div>
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <BellRing className="size-4 text-primary" />
+              Configuración de alertas
+            </CardTitle>
+            <CardDescription>
+              Define con cuánta anticipación se avisan los vencimientos, los
+              umbrales de kilometraje y el envío del resumen por correo. Las
+              alertas se recalculan diariamente mediante el proceso programado
+              (<code>/api/cron/alertas</code>).
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Suspense fallback={null}>
+              <AlertasConfig />
+            </Suspense>
+          </CardContent>
+        </Card>
+      </section>
+
+      <Separator />
+
+      <section className="space-y-3">
+        <div className="flex items-center gap-2">
+          <h2 className="text-sm font-semibold text-muted-foreground">
+            Categorías de mantenimiento
+          </h2>
+          <Badge variant="secondary" className="text-xs">
+            Activo
+          </Badge>
+        </div>
+        <Card>
+          <CardContent>
+            <CategoriasView />
+          </CardContent>
+        </Card>
+      </section>
+
+      <Separator />
+
+      <section className="space-y-3">
+        <div className="flex items-center gap-2">
+          <h2 className="text-sm font-semibold text-muted-foreground">
+            Técnicos
+          </h2>
+          <Badge variant="secondary" className="text-xs">
+            Activo
+          </Badge>
+        </div>
+        <Card>
+          <CardContent>
+            <TecnicosView />
+          </CardContent>
+        </Card>
+      </section>
+
+      <Separator />
+
+      <section className="space-y-3">
+        <h2 className="text-sm font-semibold text-muted-foreground">
+          Módulos pendientes
+        </h2>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {SECTIONS.map((section) => (
+            <Card key={section.title}>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <section.icon className="size-4 text-primary" />
+                  {section.title}
+                </CardTitle>
+                <CardDescription>{section.description}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Badge variant="secondary" className="text-xs">
+                  Se activa en la {section.etapa}
+                </Badge>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
 
       <Card>
         <CardHeader>
