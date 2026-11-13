@@ -47,6 +47,21 @@ export async function crearVehiculo(input: VehiculoInput): Promise<Vehiculo> {
   return data as Vehiculo;
 }
 
+export async function crearVehiculosMasivo(
+  inputs: VehiculoInput[]
+): Promise<Vehiculo[]> {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("vehiculos")
+    .insert(inputs)
+    .select(SELECT_VEHICULO);
+
+  if (error) {
+    throw new Error(mensajeSupabase(error));
+  }
+  return (data ?? []) as Vehiculo[];
+}
+
 export async function actualizarVehiculo(
   id: string,
   input: VehiculoInput

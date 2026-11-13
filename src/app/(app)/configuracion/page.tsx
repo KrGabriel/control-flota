@@ -11,16 +11,7 @@ import { Separator } from "@/components/ui/separator";
 import { AlertasConfig } from "@/components/configuracion/alertas-config";
 import { CategoriasView } from "@/components/categorias/categorias-view";
 import { TecnicosView } from "@/components/tecnicos/tecnicos-view";
-
-const SECTIONS = [
-  {
-    icon: ArrowLeftRight,
-    title: "Importación y exportación",
-    description:
-      "Importación de vehículos y registros desde CSV/Excel, y exportación de respaldos.",
-    etapa: "Etapa 8",
-  },
-];
+import { RespaldosView } from "@/components/configuracion/respaldos-view";
 
 export default function ConfiguracionPage() {
   return (
@@ -99,27 +90,29 @@ export default function ConfiguracionPage() {
       <Separator />
 
       <section className="space-y-3">
-        <h2 className="text-sm font-semibold text-muted-foreground">
-          Módulos pendientes
-        </h2>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {SECTIONS.map((section) => (
-            <Card key={section.title}>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <section.icon className="size-4 text-primary" />
-                  {section.title}
-                </CardTitle>
-                <CardDescription>{section.description}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Badge variant="secondary" className="text-xs">
-                  Se activa en la {section.etapa}
-                </Badge>
-              </CardContent>
-            </Card>
-          ))}
+        <div className="flex items-center gap-2">
+          <h2 className="text-sm font-semibold text-muted-foreground">
+            Importación y exportación
+          </h2>
+          <Badge variant="secondary" className="text-xs">
+            Activo
+          </Badge>
         </div>
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <ArrowLeftRight className="size-4 text-primary" />
+              Respaldos en CSV
+            </CardTitle>
+            <CardDescription>
+              Exportá los registros de la flota a CSV y completá la carga
+              inicial de vehículos importando un archivo.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <RespaldosView />
+          </CardContent>
+        </Card>
       </section>
 
       <Card>
