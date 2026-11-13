@@ -10,6 +10,8 @@ import { FichaMantenimientoTab } from "@/components/mantenimiento/ficha-mantenim
 import { FichaCombustibleTab } from "@/components/combustible/ficha-combustible-tab";
 import { FichaDocumentacionTab } from "@/components/vehiculos/ficha-documentacion-tab";
 import { FichaAlertasTab } from "@/components/vehiculos/ficha-alertas-tab";
+import { FichaArchivosTab } from "@/components/vehiculos/ficha-archivos-tab";
+import { FichaGastosTab } from "@/components/vehiculos/ficha-gastos-tab";
 import {
   EstadoFisicaBadge,
   EstadoOperativoBadge,
@@ -87,9 +89,9 @@ export function FichaVehiculoContent({
     { value: "mantenimiento", label: "Mantenimiento", icon: Wrench },
     { value: "combustible", label: "Combustible", icon: Fuel },
     { value: "documentacion", label: "Documentación y equipamiento", icon: ClipboardList },
-    { value: "gastos", label: "Gastos", icon: Banknote, etapa: "Etapa 8" },
+    { value: "gastos", label: "Gastos", icon: Banknote },
     { value: "alertas", label: "Historial de alertas", icon: BellRing },
-    { value: "archivos", label: "Fotografías y archivos", icon: Camera, etapa: "Etapa 7" },
+    { value: "archivos", label: "Fotografías y archivos", icon: Camera },
   ];
 
   return (
@@ -291,15 +293,13 @@ export function FichaVehiculoContent({
               <FichaAlertasTab vehiculoId={vehiculo.id} />
             </TabsContent>
 
-            {TABS.filter((t) => t.etapa).map((tab) => (
-              <TabsContent key={tab.value} value={tab.value} className="mt-4">
-                <EmptyState
-                  icon={tab.icon}
-                  title={`Sin información de "${tab.label}"`}
-                  description={`Esta sección se activará al desarrollar el módulo correspondiente (${tab.etapa}).`}
-                />
-              </TabsContent>
-            ))}
+            <TabsContent value="archivos" className="mt-4">
+              <FichaArchivosTab vehiculoId={vehiculo.id} />
+            </TabsContent>
+
+            <TabsContent value="gastos" className="mt-4">
+              <FichaGastosTab vehiculoId={vehiculo.id} />
+            </TabsContent>
           </Tabs>
         </CardContent>
       </Card>

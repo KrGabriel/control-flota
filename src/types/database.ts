@@ -172,6 +172,23 @@ export interface NotificacionEnviada {
   fecha_envio: string;
 }
 
+export type EntidadAdjunto =
+  | "vehiculo"
+  | "mantenimiento"
+  | "combustible"
+  | "documento";
+
+export interface Adjunto {
+  id: string;
+  entidad: EntidadAdjunto;
+  entidad_id: string;
+  nombre_archivo: string;
+  path_storage: string;
+  tipo_mime: string | null;
+  tamano_bytes: number | null;
+  created_at: string;
+}
+
 export interface CargaCombustible {
   id: string;
   vehiculo_id: string;
