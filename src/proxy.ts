@@ -4,13 +4,6 @@ import { createServerClient } from "@supabase/ssr";
 const PUBLIC_PATHS = ["/login", "/recuperar-contrasena", "/restablecer", "/auth"];
 
 export async function proxy(request: NextRequest) {
-  const pathname = request.nextUrl.pathname;
-
-  // El endpoint Cron gestiona su propia autenticación mediante CRON_SECRET.
-  if (pathname === "/api/cron/alertas") {
-    return NextResponse.next();
-  }
-
   let response = NextResponse.next({ request });
 
   const supabase = createServerClient(
